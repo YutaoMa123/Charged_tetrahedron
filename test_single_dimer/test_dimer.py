@@ -43,7 +43,7 @@ nl = md.nlist.cell()
 yukawa = md.pair.yukawa(r_cut = 24.0, nlist=nl)
 for i in range(len(types)):
 	yukawa.pair_coeff.set('C',types[i],epsilon=0.0,kappa=1.0)
-yukawa.pair_coeff.set('A','A',epsilon = 20.0, kappa=1./20)
+yukawa.pair_coeff.set('A','A',epsilon = 25.0, kappa=1./22)
 yukawa.pair_coeff.set('A','B',epsilon = 0.0,kappa=1./25)
 yukawa.pair_coeff.set('B','B',epsilon = 0.0, kappa= 1./25)
 yukawa.set_params(mode='shift')
