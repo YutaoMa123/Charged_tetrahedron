@@ -1,0 +1,3 @@
+timestep	num_particles	potential_energy	kinetic_energy	temperature
+0	58	0	0	0
+10000	58	0	1.456164876	0.3235921946

@@ -43,7 +43,7 @@ nl = md.nlist.cell()
 yukawa = md.pair.yukawa(r_cut = 24.0, nlist=nl)
 for i in range(len(types)):
 	yukawa.pair_coeff.set('C',types[i],epsilon=0.0,kappa=1.0)
-yukawa.pair_coeff.set('A','A',epsilon = 25.0, kappa=1./22)
+yukawa.pair_coeff.set('A','A',epsilon = 50.0, kappa=1./24)
 yukawa.pair_coeff.set('A','B',epsilon = 0.0,kappa=1./25)
 yukawa.pair_coeff.set('B','B',epsilon = 0.0, kappa= 1./25)
 yukawa.set_params(mode='shift')
@@ -51,13 +51,13 @@ yukawa.set_params(mode='shift')
 
 lj = md.pair.lj(r_cut = 5,nlist =nl)
 N_B_per_vertex = type_nums[2]/4
-eps_B = 150.0/N_B_per_vertex
-eps_A = 2.0
+eps_B = 180.0/N_B_per_vertex
+eps_A = 1.0
 for i in range(len(types)):
 	lj.pair_coeff.set('C',types[i],epsilon=0.0,sigma=1.0)
 lj.pair_coeff.set('A','A',epsilon = 0.0, sigma= 1.0)
 lj.pair_coeff.set('A','B',epsilon= 0.0, sigma = 1.0)
-lj.pair_coeff.set('B','B',epsilon =eps_B, sigma=sigma[-1],r_cut= 5)
+lj.pair_coeff.set('B','B',epsilon =eps_B, sigma=sigma[-1],r_cut= 5.0)
 lj.set_params(mode='shift')
 
 wca = md.pair.slj(r_cut=2.5,nlist=nl,d_max = max(sigma))
@@ -93,13 +93,13 @@ for p in tetra_centers:
 
 md.integrate.mode_standard(dt = 0.005)
 kT = variant.linear_interp(points = [(0, 1.0), (5e6, 0.0)])
-langevin1 = md.integrate.langevin(group = tetra_centers,seed = 2345 ,kT = 1.0, dscale=1.0)
+langevin1 = md.integrate.langevin(group = tetra_centers,seed = 21345 ,kT = 1.0, dscale=1.0)
 #nve = md.integrate.nve(group=tetra_centers)
-#yukawa.disable()
+yukawa.disable()
 # lj.enable()
 # wca.enable()
-dumper = dump.gsd(filename = 'test_production_yukawa.gsd', period = 1e3, group=group.all(), overwrite=True)
-logger = analyze.log(filename = 'test_production_yukawa.txt',quantities=['num_particles','potential_energy','kinetic_energy','temperature'] ,period = 1e4, overwrite=True)
+dumper = dump.gsd(filename = 'test_production_no_yukawa.gsd', period = 1e3, group=group.all(), overwrite=True)
+logger = analyze.log(filename = 'test_production_no_yukawa.txt',quantities=['num_particles','potential_energy','kinetic_energy','temperature'] ,period = 1e4, overwrite=True)
 run(5e6)
 dumper.disable()
 logger.disable()
